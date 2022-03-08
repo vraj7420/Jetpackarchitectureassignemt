@@ -18,9 +18,14 @@ class ViewModelLiveDataDataBindingActivity : AppCompatActivity() {
             this,
             R.layout.activity_view_model_live_data_data_binding
         )
+        init()
         setFragment()
     }
 
+     private fun init(){
+         val actionBar=supportActionBar
+         actionBar?.title =getString(R.string.view_model_livedata_data_binding)
+     }
     private fun setFragment() {
         val setFragmentManager = supportFragmentManager
         val fragmentTransaction = setFragmentManager.beginTransaction()
