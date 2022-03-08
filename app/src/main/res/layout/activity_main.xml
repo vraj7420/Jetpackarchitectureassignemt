@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.activity.MainActivity">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnViewModel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+
+            android:text="@string/view_model_livedata_data_binding"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintBottom_toTopOf="@+id/btnRoom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRoom"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/room"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/btnWorkManger"
+            app:layout_constraintEnd_toEndOf="@id/btnViewModel"
+            app:layout_constraintStart_toStartOf="@id/btnViewModel"
+            app:layout_constraintTop_toBottomOf="@+id/btnViewModel" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnWorkManger"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/work_manage"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/btnPaging"
+            app:layout_constraintEnd_toEndOf="@id/btnViewModel"
+            app:layout_constraintStart_toStartOf="@id/btnViewModel"
+            app:layout_constraintTop_toBottomOf="@+id/btnRoom" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPaging"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/paging"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/btnNavigationComponent"
+            app:layout_constraintEnd_toEndOf="@id/btnViewModel"
+            app:layout_constraintStart_toStartOf="@id/btnViewModel"
+            app:layout_constraintTop_toBottomOf="@+id/btnWorkManger" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNavigationComponent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/navigation_component"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/btnViewModel"
+            app:layout_constraintStart_toStartOf="@id/btnViewModel"
+            app:layout_constraintTop_toBottomOf="@+id/btnPaging" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
