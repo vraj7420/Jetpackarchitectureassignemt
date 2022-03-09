@@ -1,7 +1,6 @@
 package com.example.jetpackarchitectureassignemt.viewmodel
 
 import android.content.Context
-import android.view.View
 import androidx.lifecycle.*
 import com.example.jetpackarchitectureassignemt.R
 import com.example.jetpackarchitectureassignemt.Util
@@ -16,8 +15,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ViewModelLiveDataBindingViewModel : ViewModel(), LifecycleOwner {
-    val pageNumber = MutableLiveData<String>(null)
-    var apiFailure = MutableLiveData<String>()
+    val pageNumber = MutableLiveData<String>()
+    var apiFailure = MutableLiveData("")
     private lateinit var pageInfoAdapter: PageInfoAdapter
     var bindingPageNumberTack: FragmentPageNumberTackBinding? = null
     var bindingPageDataShow: FragmentPageDataShowBinding? = null
@@ -26,11 +25,11 @@ class ViewModelLiveDataBindingViewModel : ViewModel(), LifecycleOwner {
         get() = pageNumber
 
     fun getPageData(ctx:Context) {
+        apiFailure.value=""
         if(!Util().checkForInternet(ctx)){
             apiFailure.value=ctx.getString(R.string.no_Internet)
             return
         }
-        bindingPageDataShow?.pbWaiting?.visibility=View.VISIBLE
         BaseService().getBaseApi().getData(Util.tagApi, pageNumber.value.toString())
             .enqueue(object : Callback<PageList?> {
                 override fun onResponse(call: Call<PageList?>, response: Response<PageList?>) {
@@ -40,18 +39,13 @@ class ViewModelLiveDataBindingViewModel : ViewModel(), LifecycleOwner {
                         apiFailure.value=ctx.getString(R.string.no_data)
                     } else {
                         pageDataList.value = pageBody?.pageList
-                        setAdapter()
                     }
                 }
                 override fun onFailure(call: Call<PageList?>, t: Throwable) {
                     apiFailure.value = t.message
                 }
             })
-    }private fun setAdapter() {
-        pageInfoAdapter = PageInfoAdapter(pageDataList.value)
-        bindingPageDataShow?.rvPageData?.adapter = pageInfoAdapter
     }
-
     /**
      * Returns the Lifecycle of the provider.
      *

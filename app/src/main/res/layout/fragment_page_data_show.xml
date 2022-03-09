@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.text.TextUtils"/>
         <variable
             name="pageDataShow"
             type="com.example.jetpackarchitectureassignemt.viewmodel.ViewModelLiveDataBindingViewModel" />
-
         <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#489BDD"
         android:id="@+id/rootPageDataShow"
         tools:context=".view.fragment.PageDataShowFragment">
 
@@ -36,7 +36,7 @@
             android:text="@{pageDataShow.apiFailure}"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:visibility="@{pageDataShow.apiFailure!= null ? View.VISIBLE: View.GONE}"
+            android:visibility="@{(pageDataShow.apiFailure!=null) ? View.VISIBLE: View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

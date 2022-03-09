@@ -7,6 +7,7 @@ import com.example.jetpackarchitectureassignemt.R
 import com.example.jetpackarchitectureassignemt.Util
 import com.example.jetpackarchitectureassignemt.databinding.ActivityViewModelLiveDataDataBindingBinding
 import com.example.jetpackarchitectureassignemt.view.fragment.PageNumberTackFragment
+import kotlinx.android.synthetic.main.activity_view_model_live_data_data_binding.*
 
 class ViewModelLiveDataDataBindingActivity : AppCompatActivity() {
     companion object {
@@ -17,7 +18,7 @@ class ViewModelLiveDataDataBindingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         bindingActivity = DataBindingUtil.setContentView(this, R.layout.activity_view_model_live_data_data_binding)
         init()
-        Util().setFragment(this,PageNumberTackFragment())
+        Util().setFragment(fragment_container_view.id,this,PageNumberTackFragment())
     }
 
      private fun init(){

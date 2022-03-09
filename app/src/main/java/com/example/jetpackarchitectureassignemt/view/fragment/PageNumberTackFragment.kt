@@ -11,6 +11,7 @@ import com.example.jetpackarchitectureassignemt.R
 import com.example.jetpackarchitectureassignemt.Util
 import com.example.jetpackarchitectureassignemt.databinding.FragmentPageNumberTackBinding
 import com.example.jetpackarchitectureassignemt.viewmodel.ViewModelLiveDataBindingViewModel
+import kotlinx.android.synthetic.main.activity_view_model_live_data_data_binding.*
 import kotlinx.android.synthetic.main.fragment_page_number_tack.*
 
 class PageNumberTackFragment : Fragment() {
@@ -38,7 +39,7 @@ class PageNumberTackFragment : Fragment() {
 
     private fun setListener() {
          btnSubmit.setOnClickListener {
-             Util().setFragment(requireContext(),PageDataShowFragment())
+             Util().setFragment(requireActivity().fragment_container_view.id,requireContext(),PageDataShowFragment())
          }
     }
 }

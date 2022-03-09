@@ -6,9 +6,9 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.example.jetpackarchitectureassignemt.view.activity.ViewModelLiveDataDataBindingActivity
-
-
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class Util {
@@ -37,11 +37,18 @@ class Util {
             return networkInfo.isConnected
         }
     }
-    fun setFragment(ctx:Context,fragment:Fragment) {
+    fun setFragment(fragmentId:Int,ctx:Context,fragment:Fragment) {
         val setFragmentManager = (ctx as FragmentActivity).supportFragmentManager
         val fragmentTransaction = setFragmentManager.beginTransaction()
-        fragmentTransaction.replace(ViewModelLiveDataDataBindingActivity.bindingActivity.fragmentContainerView.id, fragment)
-        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.replace(fragmentId, fragment)
+        if (setFragmentManager.fragments.isNotEmpty()) fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
+    }
+
+    fun dateConverter(date:String):String{
+        val originalFormat: DateFormat = SimpleDateFormat(dateOldFormat, Locale.ENGLISH)
+        val targetFormat: DateFormat = SimpleDateFormat(dataFormat, Locale.US)
+        val origFormatDate = originalFormat.parse(date)
+        return targetFormat.format(origFormatDate ?: "")
     }
 }
