@@ -8,8 +8,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.jetpackarchitectureassignemt.R
-import com.example.jetpackarchitectureassignemt.view.activity.ViewModelLiveDataDataBindingActivity
 import com.example.jetpackarchitectureassignemt.databinding.FragmentPageNumberTackBinding
+import com.example.jetpackarchitectureassignemt.view.activity.ViewModelLiveDataDataBindingActivity
 import com.example.jetpackarchitectureassignemt.viewmodel.ViewModelLiveDataBindingViewModel
 
 class PageNumberTackFragment : Fragment() {
@@ -29,18 +29,14 @@ class PageNumberTackFragment : Fragment() {
     }
 
     private fun viewModelSetUp() {
-        pageNumberViewModel = ViewModelProvider(requireActivity()).get(
-            ViewModelLiveDataBindingViewModel::class.java)
+        pageNumberViewModel = ViewModelProvider(requireActivity()).get(ViewModelLiveDataBindingViewModel::class.java)
         bindingPageNumberTackFragment.pageNumberTackViewModel = pageNumberViewModel
         bindingPageNumberTackFragment.lifecycleOwner = activity
         pageNumberViewModel.pageNumber.value=null
+        pageNumberViewModel.bindingPageNumberTack=bindingPageNumberTackFragment
         pageNumberViewModel.pageNumber.observe(viewLifecycleOwner, {
-            if(pageNumberViewModel.pageNumber.value?.isNotEmpty() == true){
-                bindingPageNumberTackFragment.btnSubmit.setBackgroundResource(R.color.white)
-            }
-            else{
-                bindingPageNumberTackFragment.btnSubmit.setBackgroundResource(android.R.color.darker_gray)
-            }
+        pageNumberViewModel.setBackGroundBtn()
+
         })
     }
 
@@ -49,7 +45,7 @@ class PageNumberTackFragment : Fragment() {
             val setFragmentManager = requireActivity().supportFragmentManager
             val fragmentTransaction = setFragmentManager.beginTransaction()
             fragmentTransaction.replace(ViewModelLiveDataDataBindingActivity.bindingActivity.fragmentContainerView.id, PageDataShowFragment())
-            fragmentTransaction.commit()
+             fragmentTransaction.commit()
         }
     }
 }

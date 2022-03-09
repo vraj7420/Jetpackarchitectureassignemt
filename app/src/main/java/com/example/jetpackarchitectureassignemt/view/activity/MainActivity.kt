@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.example.jetpackarchitectureassignemt.R
 import com.example.jetpackarchitectureassignemt.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var bindingActivity: ActivityMainBinding
@@ -16,7 +17,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setListener() {
-        bindingActivity.btnViewModel.setOnClickListener {
+        btnViewModel.setOnClickListener {
             val intentNextScreen=Intent(this,ViewModelLiveDataDataBindingActivity::class.java)
             startActivity(intentNextScreen)
         }

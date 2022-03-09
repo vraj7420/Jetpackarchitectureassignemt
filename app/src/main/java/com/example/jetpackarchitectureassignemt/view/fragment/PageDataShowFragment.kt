@@ -7,18 +7,17 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.jetpackarchitectureassignemt.R
 import com.example.jetpackarchitectureassignemt.Util
-import com.example.jetpackarchitectureassignemt.adapter.PageInfoAdapter
 import com.example.jetpackarchitectureassignemt.databinding.FragmentPageDataShowBinding
 import com.example.jetpackarchitectureassignemt.viewmodel.ViewModelLiveDataBindingViewModel
+import kotlinx.android.synthetic.main.fragment_page_data_show.*
 
 class PageDataShowFragment : Fragment() {
     private lateinit var bindingPageDataShowFragment: FragmentPageDataShowBinding
     private lateinit var pageDataShowViewModel: ViewModelLiveDataBindingViewModel
-    private lateinit var pageInfoAdapter: PageInfoAdapter
-    override fun onCreateView(inflater: LayoutInflater,
+    override fun onCreateView(
+        inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
@@ -31,32 +30,25 @@ class PageDataShowFragment : Fragment() {
         viewModelSetUp()
         init()
     }
-    private fun viewModelSetUp(){
+
+    private fun viewModelSetUp() {
         pageDataShowViewModel = ViewModelProvider(requireActivity()).get(ViewModelLiveDataBindingViewModel::class.java)
         bindingPageDataShowFragment.pageDataShow = pageDataShowViewModel
         bindingPageDataShowFragment.lifecycleOwner = activity
-        pageDataShowViewModel.pageDataList.observe(viewLifecycleOwner, {
-            setAdapter()
+        pageDataShowViewModel.bindingPageDataShow=bindingPageDataShowFragment
+        pageDataShowViewModel.apiFailure.observe(viewLifecycleOwner,{
+            tvError.text=pageDataShowViewModel.apiFailure.toString()
         })
-        pageDataShowViewModel.apiFailure.observe(viewLifecycleOwner, {
-            bindingPageDataShowFragment.tvError.text = pageDataShowViewModel.apiFailure.value
-        })
-    }
-
-    private fun setAdapter() {
-        pageInfoAdapter = PageInfoAdapter(pageDataShowViewModel.pageDataList.value)
-        bindingPageDataShowFragment.rvPageData.layoutManager = LinearLayoutManager(requireContext())
-        bindingPageDataShowFragment.rvPageData.adapter = pageInfoAdapter
-        bindingPageDataShowFragment.pbWaiting.visibility=View.GONE
     }
 
     private fun init() {
-        if(Util().checkForInternet(requireContext())){
-        pageDataShowViewModel.getPageData()
-        }else{
-            bindingPageDataShowFragment.tvError.text = requireContext().getString(R.string.no_Internet)
-            bindingPageDataShowFragment.rvPageData.visibility = View.GONE
-            bindingPageDataShowFragment.tvError.visibility = View.VISIBLE
+        if (Util().checkForInternet(requireContext())) {
+            pageDataShowViewModel.getPageData()
+        } else {
+            tvError.text =
+                requireContext().getString(R.string.no_Internet)
+            rvPageData.visibility = View.GONE
+          tvError.visibility = View.VISIBLE
         }
     }
 }
