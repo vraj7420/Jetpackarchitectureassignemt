@@ -13,7 +13,7 @@ import com.example.jetpackarchitectureassignemt.databinding.FragmentPageDataShow
 import com.example.jetpackarchitectureassignemt.viewmodel.ViewModelLiveDataBindingViewModel
 import kotlinx.android.synthetic.main.fragment_page_data_show.*
 
-class PageDataShowFragment : Fragment() {
+class PageDataShowFragment : Fragment(){
     private lateinit var bindingPageDataShowFragment: FragmentPageDataShowBinding
     private lateinit var pageDataShowViewModel: ViewModelLiveDataBindingViewModel
     override fun onCreateView(

@@ -37,12 +37,14 @@ class PageInfoAdapter(private var pageDataList: ArrayList<PageModel>?) :
     override fun onBindViewHolder(holder: PageInfoHolder, position: Int) {
         val pageData = pageDataList?.get(position)
         holder.bind(pageData)
+        holder.itemView.setOnClickListener{
+          //  Snackbar.make(rootPageDataShow,position.toString()+ (pageData?.title ?: ""), Snackbar.LENGTH_LONG).show()
+        }
     }
 
     override fun getItemCount(): Int{
         return pageDataList?.size ?: 0
     }
-
   inner class PageInfoHolder(itemDataBinding:ItemPageBinding) : RecyclerView.ViewHolder(itemDataBinding.root){
         private val itemBinding=itemDataBinding
         @SuppressLint("SimpleDateFormat", "SetTextI18n")
@@ -54,6 +56,7 @@ class PageInfoAdapter(private var pageDataList: ArrayList<PageModel>?) :
              val dateText = ctx.getString(R.string.created_at)+date
             itemBinding.tvCreatedDate.text=dateText
             itemBinding.pageItems=pageData
+
         }
     }
 }
