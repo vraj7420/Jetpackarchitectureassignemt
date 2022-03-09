@@ -10,6 +10,7 @@ import com.example.jetpackarchitectureassignemt.R
 import com.example.jetpackarchitectureassignemt.Util
 import com.example.jetpackarchitectureassignemt.databinding.ItemPageBinding
 import com.example.jetpackarchitectureassignemt.model.PageModel
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -46,8 +47,10 @@ class PageInfoAdapter(private var pageDataList: ArrayList<PageModel>?) :
         private val itemBinding=itemDataBinding
         @SuppressLint("SimpleDateFormat", "SetTextI18n")
         fun bind(pageData: PageModel?){
-            val dateFormat = SimpleDateFormat(Util.dataFormat)
-            val date=dateFormat.parse(pageData?.created_at?:"")
+            val originalFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.ENGLISH)
+            val targetFormat: DateFormat = SimpleDateFormat(Util.dataFormat)
+            val origFormatDate=originalFormat.parse(pageData?.created_at ?:" ")
+            val date=targetFormat.format(origFormatDate?: "")
              val dateText = ctx.getString(R.string.created_at)+date
             itemBinding.tvCreatedDate.text=dateText
             itemBinding.pageItems=pageData
