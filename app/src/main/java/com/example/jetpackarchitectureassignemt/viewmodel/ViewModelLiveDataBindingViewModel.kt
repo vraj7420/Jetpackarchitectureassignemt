@@ -26,6 +26,7 @@ class ViewModelLiveDataBindingViewModel : ViewModel(), LifecycleOwner {
 
     fun getPageData(ctx:Context) {
         apiFailure.value=""
+        pageDataList.value = null
         if(!Util().checkForInternet(ctx)){
             apiFailure.value=ctx.getString(R.string.no_Internet)
             return
