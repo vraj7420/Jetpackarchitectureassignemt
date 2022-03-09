@@ -1,11 +1,8 @@
 package com.example.jetpackarchitectureassignemt.viewmodel
 
-import android.annotation.SuppressLint
+import android.content.Context
 import android.view.View
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.example.jetpackarchitectureassignemt.R
 import com.example.jetpackarchitectureassignemt.Util
 import com.example.jetpackarchitectureassignemt.adapter.PageInfoAdapter
@@ -19,14 +16,20 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ViewModelLiveDataBindingViewModel : ViewModel(), LifecycleOwner {
-    val pageNumber = MutableLiveData<String>()
+    val pageNumber = MutableLiveData<String>(null)
     var apiFailure = MutableLiveData<String>()
     private lateinit var pageInfoAdapter: PageInfoAdapter
     var bindingPageNumberTack: FragmentPageNumberTackBinding? = null
     var bindingPageDataShow: FragmentPageDataShowBinding? = null
     var pageDataList = MutableLiveData<ArrayList<PageModel>>()
+    val pageNumberLiveData: LiveData<String>
+        get() = pageNumber
 
-    fun getPageData() {
+    fun getPageData(ctx:Context) {
+        if(!Util().checkForInternet(ctx)){
+            apiFailure.value=ctx.getString(R.string.no_Internet)
+            return
+        }
         bindingPageDataShow?.pbWaiting?.visibility=View.VISIBLE
         BaseService().getBaseApi().getData(Util.tagApi, pageNumber.value.toString())
             .enqueue(object : Callback<PageList?> {
@@ -34,6 +37,7 @@ class ViewModelLiveDataBindingViewModel : ViewModel(), LifecycleOwner {
                     val pageBody = response.body()
                     if (pageBody?.pageList?.isEmpty() == true) {
                         pageDataList.value = pageBody.pageList
+                        apiFailure.value=ctx.getString(R.string.no_data)
                     } else {
                         pageDataList.value = pageBody?.pageList
                         setAdapter()
@@ -41,24 +45,11 @@ class ViewModelLiveDataBindingViewModel : ViewModel(), LifecycleOwner {
                 }
                 override fun onFailure(call: Call<PageList?>, t: Throwable) {
                     apiFailure.value = t.message
-                    bindingPageDataShow?.rvPageData?.visibility=View.GONE
-                    bindingPageDataShow?.pbWaiting?.visibility=View.GONE
-                    bindingPageDataShow?.tvError?.visibility=View.VISIBLE
                 }
             })
-    }
-
-    @SuppressLint("ResourceAsColor")
-    fun setBackGroundBtn() {
-        if (pageNumber.value?.isNotEmpty() == true) {
-            bindingPageNumberTack?.btnSubmit?.setBackgroundResource(R.color.purple_500)
-            bindingPageNumberTack?.btnSubmit?.isClickable = true
-            bindingPageNumberTack?.btnSubmit?.setTextColor(R.color.white)
-        } else {
-            bindingPageNumberTack?.btnSubmit?.setBackgroundResource(R.color.gray_C1BFBF)
-            bindingPageNumberTack?.btnSubmit?.isClickable = false
-            bindingPageNumberTack?.btnSubmit?.setTextColor(R.color.black)
-        }
+    }private fun setAdapter() {
+        pageInfoAdapter = PageInfoAdapter(pageDataList.value)
+        bindingPageDataShow?.rvPageData?.adapter = pageInfoAdapter
     }
 
     /**
@@ -68,10 +59,5 @@ class ViewModelLiveDataBindingViewModel : ViewModel(), LifecycleOwner {
      */
     override fun getLifecycle(): Lifecycle {
         TODO("Not yet implemented")
-    }
-    private fun setAdapter() {
-        pageInfoAdapter = PageInfoAdapter(pageDataList.value)
-        bindingPageDataShow?.rvPageData?.adapter = pageInfoAdapter
-        bindingPageDataShow?.pbWaiting?.visibility =View.GONE
     }
 }

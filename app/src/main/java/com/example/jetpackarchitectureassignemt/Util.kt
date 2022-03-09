@@ -4,6 +4,12 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import com.example.jetpackarchitectureassignemt.view.activity.ViewModelLiveDataDataBindingActivity
+
+
+
 
 class Util {
    companion object{
@@ -12,6 +18,7 @@ class Util {
        const val apiQueryTagArg="tags"
        const val apiQueryPageArg="page"
        const val dataFormat="MMM d,yyyy"
+       const val dateOldFormat="yyyy-MM-dd'T'hh:mm:ss"
    }
      fun checkForInternet(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -30,6 +37,11 @@ class Util {
             return networkInfo.isConnected
         }
     }
-
-
+    fun setFragment(ctx:Context,fragment:Fragment) {
+        val setFragmentManager = (ctx as FragmentActivity).supportFragmentManager
+        val fragmentTransaction = setFragmentManager.beginTransaction()
+        fragmentTransaction.replace(ViewModelLiveDataDataBindingActivity.bindingActivity.fragmentContainerView.id, fragment)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
+    }
 }

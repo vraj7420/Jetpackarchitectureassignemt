@@ -1,14 +1,12 @@
 package com.example.jetpackarchitectureassignemt.view.activity
 
-import android.content.Context
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.example.jetpackarchitectureassignemt.view.fragment.PageNumberTackFragment
 import com.example.jetpackarchitectureassignemt.R
+import com.example.jetpackarchitectureassignemt.Util
 import com.example.jetpackarchitectureassignemt.databinding.ActivityViewModelLiveDataDataBindingBinding
+import com.example.jetpackarchitectureassignemt.view.fragment.PageNumberTackFragment
 
 class ViewModelLiveDataDataBindingActivity : AppCompatActivity() {
     companion object {
@@ -19,18 +17,11 @@ class ViewModelLiveDataDataBindingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         bindingActivity = DataBindingUtil.setContentView(this, R.layout.activity_view_model_live_data_data_binding)
         init()
-        setFragment()
-
+        Util().setFragment(this,PageNumberTackFragment())
     }
 
      private fun init(){
          val actionBar=supportActionBar
          actionBar?.title =getString(R.string.view_model_livedata_data_binding)
      }
-    private fun setFragment() {
-        val setFragmentManager = supportFragmentManager
-        val fragmentTransaction = setFragmentManager.beginTransaction()
-        fragmentTransaction.replace(bindingActivity.fragmentContainerView.id, PageNumberTackFragment())
-        fragmentTransaction.commit()
-    }
 }
