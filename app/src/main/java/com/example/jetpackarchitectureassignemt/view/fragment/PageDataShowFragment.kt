@@ -12,38 +12,34 @@ import com.example.jetpackarchitectureassignemt.R
 import com.example.jetpackarchitectureassignemt.Util
 import com.example.jetpackarchitectureassignemt.adapter.PageInfoAdapter
 import com.example.jetpackarchitectureassignemt.databinding.FragmentPageDataShowBinding
-import com.example.jetpackarchitectureassignemt.model.ViewModelLiveDataBindingViewModel
+import com.example.jetpackarchitectureassignemt.viewmodel.ViewModelLiveDataBindingViewModel
 
 class PageDataShowFragment : Fragment() {
     private lateinit var bindingPageDataShowFragment: FragmentPageDataShowBinding
     private lateinit var pageDataShowViewModel: ViewModelLiveDataBindingViewModel
     private lateinit var pageInfoAdapter: PageInfoAdapter
-    override fun onCreateView(
-        inflater: LayoutInflater,
+    override fun onCreateView(inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        bindingPageDataShowFragment =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_page_data_show, container, false)
+        bindingPageDataShowFragment = DataBindingUtil.inflate(inflater, R.layout.fragment_page_data_show, container, false)
         return bindingPageDataShowFragment.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModelSetUp()
         init()
-        setObserver()
     }
-
-    private fun setObserver() {
+    private fun viewModelSetUp(){
+        pageDataShowViewModel = ViewModelProvider(requireActivity()).get(ViewModelLiveDataBindingViewModel::class.java)
+        bindingPageDataShowFragment.pageDataShow = pageDataShowViewModel
+        bindingPageDataShowFragment.lifecycleOwner = activity
         pageDataShowViewModel.pageDataList.observe(viewLifecycleOwner, {
-            bindingPageDataShowFragment.pbWaiting.visibility=View.VISIBLE
             setAdapter()
         })
         pageDataShowViewModel.apiFailure.observe(viewLifecycleOwner, {
             bindingPageDataShowFragment.tvError.text = pageDataShowViewModel.apiFailure.value
-            bindingPageDataShowFragment.rvPageData.visibility = View.GONE
-            bindingPageDataShowFragment.tvError.visibility = View.VISIBLE
-
         })
     }
 
@@ -55,9 +51,6 @@ class PageDataShowFragment : Fragment() {
     }
 
     private fun init() {
-        pageDataShowViewModel = ViewModelProvider(requireActivity()).get(ViewModelLiveDataBindingViewModel::class.java)
-        bindingPageDataShowFragment.pageDataShow = pageDataShowViewModel
-        bindingPageDataShowFragment.lifecycleOwner = activity
         if(Util().checkForInternet(requireContext())){
         pageDataShowViewModel.getPageData()
         }else{

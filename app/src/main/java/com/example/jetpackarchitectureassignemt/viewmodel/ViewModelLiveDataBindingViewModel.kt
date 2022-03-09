@@ -1,8 +1,10 @@
-package com.example.jetpackarchitectureassignemt.model
+package com.example.jetpackarchitectureassignemt.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.jetpackarchitectureassignemt.Util
+import com.example.jetpackarchitectureassignemt.model.PageList
+import com.example.jetpackarchitectureassignemt.model.PageModel
 import com.example.jetpackarchitectureassignemt.network.BaseService
 import retrofit2.Call
 import retrofit2.Callback
@@ -28,5 +30,4 @@ class ViewModelLiveDataBindingViewModel:ViewModel() {
             }
         })
     }
-
 }

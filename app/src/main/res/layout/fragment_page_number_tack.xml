@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="androidx.core.content.ContextCompat"/>
         <variable
             name="pageNumberTackViewModel"
-            type="com.example.jetpackarchitectureassignemt.model.ViewModelLiveDataBindingViewModel" />
+            type="com.example.jetpackarchitectureassignemt.viewmodel.ViewModelLiveDataBindingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +23,6 @@
             android:layout_marginEnd="10dp"
             app:layout_constraintBottom_toTopOf="@+id/btnSubmit"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed">
@@ -41,16 +41,14 @@
             android:id="@+id/btnSubmit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="@string/submit"
             android:textAllCaps="false"
-            android:clickable="false"
-            android:focusable="false"
+            android:clickable="@{pageNumberTackViewModel.pageNumber!=null ? true : false}"
             android:background="@android:color/darker_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tilPageNumber" />
 

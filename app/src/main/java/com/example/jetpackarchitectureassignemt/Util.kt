@@ -11,6 +11,7 @@ class Util {
        const val apiSubUrl="search_by_date"
        const val apiQueryTagArg="tags"
        const val apiQueryPageArg="page"
+       const val dataFormat="dd-MM-yyyy"
    }
      fun checkForInternet(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
