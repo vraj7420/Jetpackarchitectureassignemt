@@ -30,6 +30,10 @@ class PageNumberTackFragment : Fragment() {
         setListener()
     }
 
+
+
+
+
     private fun viewModelSetUp() {
         pageNumberViewModel = ViewModelProvider(requireActivity()).get(ViewModelLiveDataBindingViewModel::class.java)
         bindingPageNumberTackFragment.pageNumberTackViewModel = pageNumberViewModel

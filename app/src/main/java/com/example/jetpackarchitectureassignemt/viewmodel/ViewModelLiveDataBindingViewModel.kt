@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.lifecycle.*
 import com.example.jetpackarchitectureassignemt.R
 import com.example.jetpackarchitectureassignemt.Util
-import com.example.jetpackarchitectureassignemt.adapter.PageInfoAdapter
 import com.example.jetpackarchitectureassignemt.databinding.FragmentPageDataShowBinding
 import com.example.jetpackarchitectureassignemt.databinding.FragmentPageNumberTackBinding
 import com.example.jetpackarchitectureassignemt.model.PageList
@@ -17,7 +16,6 @@ import retrofit2.Response
 class ViewModelLiveDataBindingViewModel : ViewModel(), LifecycleOwner {
     val pageNumber = MutableLiveData<String>()
     var apiFailure = MutableLiveData("")
-    private lateinit var pageInfoAdapter: PageInfoAdapter
     var bindingPageNumberTack: FragmentPageNumberTackBinding? = null
     var bindingPageDataShow: FragmentPageDataShowBinding? = null
     var pageDataList = MutableLiveData<ArrayList<PageModel>>()

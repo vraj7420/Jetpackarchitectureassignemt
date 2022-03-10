@@ -1,8 +1,8 @@
 package com.example.jetpackarchitectureassignemt.view.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.jetpackarchitectureassignemt.R
 import com.example.jetpackarchitectureassignemt.databinding.ActivityMainBinding
@@ -20,6 +20,10 @@ class MainActivity : AppCompatActivity() {
         btnViewModel.setOnClickListener {
             val intentNextScreen=Intent(this,ViewModelLiveDataDataBindingActivity::class.java)
             startActivity(intentNextScreen)
+        }
+        btnRoom.setOnClickListener {
+            val intentRoomScreen=Intent(this,RoomActivity::class.java)
+            startActivity(intentRoomScreen)
         }
     }
 }

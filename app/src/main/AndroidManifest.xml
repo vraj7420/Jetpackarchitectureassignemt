@@ -3,7 +3,8 @@
     package="com.example.jetpackarchitectureassignemt">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,10 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JetpackArchitectureAssignemt">
         <activity
-            android:name="com.example.jetpackarchitectureassignemt.view.activity.ViewModelLiveDataDataBindingActivity"
+            android:name=".view.activity.RoomActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.jetpackarchitectureassignemt.view.activity.MainActivity"
+            android:name=".view.activity.ViewModelLiveDataDataBindingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

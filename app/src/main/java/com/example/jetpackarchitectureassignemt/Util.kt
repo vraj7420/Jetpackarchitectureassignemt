@@ -18,6 +18,9 @@ class Util {
        const val apiQueryTagArg="tags"
        const val apiQueryPageArg="page"
        const val dataFormat="MMM d,yyyy"
+       const val dataBase="StudentDb"
+       const val selectYear="Select Year"
+       const val yearFormat="yyyy"
        const val dateOldFormat="yyyy-MM-dd'T'hh:mm:ss"
    }
      fun checkForInternet(context: Context): Boolean {
