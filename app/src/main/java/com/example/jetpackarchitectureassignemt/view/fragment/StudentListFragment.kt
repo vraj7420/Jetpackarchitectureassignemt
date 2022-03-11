@@ -66,9 +66,7 @@ class StudentListFragment : Fragment() {
                     Util().setFragment(
                         requireActivity().fragment_container_view_room.id,
                         requireContext(),
-                        StudentDetailsFragment()
-                    )
-                }
+                        StudentDetailsFragment()) }
                 if (btnName.contains(requireContext().getString(R.string.delete))) {
                     val builder = AlertDialog.Builder(requireContext())
                     builder.setTitle(requireContext().getString(R.string.delete))

@@ -25,5 +25,9 @@ class MainActivity : AppCompatActivity() {
             val intentRoomScreen=Intent(this,RoomActivity::class.java)
             startActivity(intentRoomScreen)
         }
+        btnWorkManger.setOnClickListener {
+            val intentWorkManger=Intent(this,WorkMangerActivity::class.java)
+            startActivity(intentWorkManger)
+        }
     }
 }

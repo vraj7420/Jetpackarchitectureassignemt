@@ -5,14 +5,21 @@
       <map>
         <entry key="..\:/vraj educations fille/tatvasoft projects/JetpackArchitectureAssignemt/app/src/main/res/drawable/btn_background.xml" value="0.17708333333333334" />
         <entry key="..\:/vraj educations fille/tatvasoft projects/JetpackArchitectureAssignemt/app/src/main/res/drawable/ic_add.xml" value="0.25846153846153846" />
+        <entry key="..\:/vraj educations fille/tatvasoft projects/JetpackArchitectureAssignemt/app/src/main/res/drawable/ic_alarm.xml" value="0.12083333333333333" />
         <entry key="..\:/vraj educations fille/tatvasoft projects/JetpackArchitectureAssignemt/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/vraj educations fille/tatvasoft projects/JetpackArchitectureAssignemt/app/src/main/res/layout/activity_notification_description.xml" value="0.24635416666666668" />
         <entry key="..\:/vraj educations fille/tatvasoft projects/JetpackArchitectureAssignemt/app/src/main/res/layout/activity_room.xml" value="0.24635416666666668" />
         <entry key="..\:/vraj educations fille/tatvasoft projects/JetpackArchitectureAssignemt/app/src/main/res/layout/activity_view_model_live_data_data_binding.xml" value="0.1" />
+        <entry key="..\:/vraj educations fille/tatvasoft projects/JetpackArchitectureAssignemt/app/src/main/res/layout/activity_worker_manger.xml" value="0.24635416666666668" />
+        <entry key="..\:/vraj educations fille/tatvasoft projects/JetpackArchitectureAssignemt/app/src/main/res/layout/fragment_alarm_list.xml" value="0.24635416666666668" />
+        <entry key="..\:/vraj educations fille/tatvasoft projects/JetpackArchitectureAssignemt/app/src/main/res/layout/fragment_notify_battery_low.xml" value="0.24635416666666668" />
         <entry key="..\:/vraj educations fille/tatvasoft projects/JetpackArchitectureAssignemt/app/src/main/res/layout/fragment_page_data_show.xml" value="0.264" />
         <entry key="..\:/vraj educations fille/tatvasoft projects/JetpackArchitectureAssignemt/app/src/main/res/layout/fragment_page_number_tack.xml" value="0.1" />
+        <entry key="..\:/vraj educations fille/tatvasoft projects/JetpackArchitectureAssignemt/app/src/main/res/layout/fragment_set_alarm.xml" value="0.24635416666666668" />
         <entry key="..\:/vraj educations fille/tatvasoft projects/JetpackArchitectureAssignemt/app/src/main/res/layout/fragment_student_details.xml" value="0.2" />
         <entry key="..\:/vraj educations fille/tatvasoft projects/JetpackArchitectureAssignemt/app/src/main/res/layout/fragment_student_liist.xml" value="0.24635416666666668" />
         <entry key="..\:/vraj educations fille/tatvasoft projects/JetpackArchitectureAssignemt/app/src/main/res/layout/fragment_student_list.xml" value="0.159375" />
+        <entry key="..\:/vraj educations fille/tatvasoft projects/JetpackArchitectureAssignemt/app/src/main/res/layout/item_of_alarm_list_layout.xml" value="0.24635416666666668" />
         <entry key="..\:/vraj educations fille/tatvasoft projects/JetpackArchitectureAssignemt/app/src/main/res/layout/item_page.xml" value="0.24635416666666668" />
         <entry key="..\:/vraj educations fille/tatvasoft projects/JetpackArchitectureAssignemt/app/src/main/res/layout/item_student_list.xml" value="0.159375" />
       </map>

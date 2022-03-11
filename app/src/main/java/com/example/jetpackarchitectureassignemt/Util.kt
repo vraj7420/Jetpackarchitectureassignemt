@@ -47,6 +47,13 @@ class Util {
         if (setFragmentManager.fragments.isNotEmpty()) fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }
+    fun setNestedFragment(fragmentId:Int,ctx:Context,fragment:Fragment) {
+        val setFragmentManager = (ctx as FragmentActivity).supportFragmentManager
+        val fragmentTransaction = setFragmentManager.beginTransaction()
+        fragmentTransaction.replace(fragmentId, fragment)
+        fragmentTransaction.commit()
+    }
+
 
     fun dateConverter(date:String):String{
         val originalFormat: DateFormat = SimpleDateFormat(dateOldFormat, Locale.ENGLISH)
