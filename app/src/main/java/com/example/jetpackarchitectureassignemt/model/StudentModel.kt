@@ -9,7 +9,7 @@ class StudentModel(
     var studentId: Int=0,
     var studentName: String="",
     var email:String="",
-    var contactNumber:Long=0,
+    var contactNumber:Long =0,
     var dob:String="",
     var gender:String="",
     var address:String="",
