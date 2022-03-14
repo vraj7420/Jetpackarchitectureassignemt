@@ -3,10 +3,10 @@ package com.example.jetpackarchitectureassignemt.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "Student")
+@Entity(tableName = "StudentNew")
 class StudentModel(
     @PrimaryKey(autoGenerate = true)
-    var studentId:Int=0,
+    var studentId: Int=0,
     var studentName: String="",
     var email:String="",
     var contactNumber:Long=0,
@@ -15,5 +15,5 @@ class StudentModel(
     var address:String="",
     var course:String="",
     var HSCPassingYear:String=""
-    ,var HSCPercentage:Float
-    ,var hobbies:String="")
+    , var HSCPercentage:String=""
+    , var hobbies:String="")

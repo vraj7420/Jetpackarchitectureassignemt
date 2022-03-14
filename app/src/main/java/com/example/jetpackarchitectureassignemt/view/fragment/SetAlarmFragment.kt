@@ -11,7 +11,6 @@ import com.example.jetpackarchitectureassignemt.R
 import com.example.jetpackarchitectureassignemt.Util
 import com.example.jetpackarchitectureassignemt.databinding.FragmentSetAlarmBinding
 import com.example.jetpackarchitectureassignemt.viewmodel.WorkMangerViewModel
-import com.example.notificationandalarm.view.fragment.NotifyDeviceIdleFragment
 import kotlinx.android.synthetic.main.fragment_set_alarm.*
 
 

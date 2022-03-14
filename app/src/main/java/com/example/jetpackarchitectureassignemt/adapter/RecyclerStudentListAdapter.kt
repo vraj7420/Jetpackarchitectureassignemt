@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.jetpackarchitectureassignemt.R
 import com.example.jetpackarchitectureassignemt.model.StudentModel
 
-class RecyclerStudentListAdapter(
-    private var studentList: ArrayList<StudentModel>,private val btnClick: (itemPosition: Int, item: StudentModel,btnName:String) -> Unit
+class RecyclerStudentListAdapter(private val btnDeleteClick: (itemPosition: Int, item: StudentModel) -> Unit,
+                                 private var studentList: List<StudentModel>?, private val btnClick: (itemPosition: Int, item: StudentModel) -> Unit
 
 ): RecyclerView.Adapter<RecyclerStudentListAdapter.StudentListViewHolder>() {
 
@@ -26,17 +26,25 @@ class RecyclerStudentListAdapter(
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: StudentListViewHolder, position: Int) {
-        val student=studentList[position]
-        holder.tvStudentName.text=student.studentName
-        holder.tvCourse.text = ctx.getString(R.string.course_name)+student.course
-        holder.tvContactNumber.text= student.contactNumber.toString()
-        holder.tvGender.text=ctx.getString(R.string.gender)+student.gender
-        holder.btnUpdate.setOnClickListener { btnClick(position,student,ctx.getString(R.string.update)) }
-        holder.btnDelete.setOnClickListener { btnClick(position,student,ctx.getString(R.string.delete)) }
+        val student= studentList?.get(position)
+        holder.tvStudentName.text=  ctx.getString(R.string.student_name)+student?.studentName
+        holder.tvCourse.text  = ctx.getString(R.string.course_name)+ student?.course
+        holder.tvContactNumber.text= ctx.getString(R.string.contact_number)+student?.contactNumber?.toString()
+        holder.tvGender.text=ctx.getString(R.string.gender)+student?.gender
+        holder.btnUpdate.setOnClickListener {
+            if (student != null) {
+                btnClick(position,student)
+            }
+        }
+        holder.btnDelete.setOnClickListener {
+            if (student != null) {
+                btnDeleteClick(position,student)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
-        return studentList.size
+        return studentList?.size?:0
     }
 
     inner class StudentListViewHolder(itemView:View):RecyclerView.ViewHolder(itemView){

@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+     <variable
+         name="studentData"
+         type="com.example.jetpackarchitectureassignemt.viewmodel.RoomViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -80,6 +82,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:hint="@string/enter_student_name"
+                                android:text="@{studentData.studentData.studentName}"
                                 android:inputType="text" />
                         </com.google.android.material.textfield.TextInputLayout>
 

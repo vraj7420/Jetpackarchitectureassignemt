@@ -12,15 +12,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.jetpackarchitectureassignemt.R
 import com.example.jetpackarchitectureassignemt.Util
-import com.example.jetpackarchitectureassignemt.database.StudentDatabase
 import com.example.jetpackarchitectureassignemt.databinding.FragmentStudentDetailsBinding
 import com.example.jetpackarchitectureassignemt.model.StudentModel
 import com.example.jetpackarchitectureassignemt.viewmodel.RoomViewModel
 import com.whiteelephant.monthpicker.MonthPickerDialog
 import kotlinx.android.synthetic.main.fragment_student_details.*
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -59,7 +56,7 @@ class StudentDetailsFragment : Fragment() {
     }
 
     private fun init() {
-        rgGender.setOnCheckedChangeListener { radioGroup, i ->
+        rgGender.setOnCheckedChangeListener { _, i ->
             when(i){
                 rbMale.id->userGender=rbMale.text.toString()
                 rbFemale.id->userGender=rbFemale.text.toString()
@@ -67,6 +64,7 @@ class StudentDetailsFragment : Fragment() {
             }
         }
         val courseSelectionAdapter = ArrayAdapter(
+
             requireContext(),
             android.R.layout.simple_spinner_item,
             resources.getStringArray(R.array.courses)
@@ -99,16 +97,14 @@ class StudentDetailsFragment : Fragment() {
                 .setTitle(Util.selectYear)
                 .build().show()
         }
-
         spinnerCourseSelection.adapter = courseSelectionAdapter
-
         val addOrUpdate = roomViewModel.addOrUpdate.value
-        if (addOrUpdate.equals(getString(R.string.update))) {
-            btnAddOrUpdate.text = addOrUpdate
+        if (addOrUpdate != true) {
+            btnAddOrUpdate.text = requireContext().getString(R.string.update)
             setListenerForUpdate()
         }
-        if (addOrUpdate.equals(getString(R.string.add))) {
-            btnAddOrUpdate.text = addOrUpdate
+        else {
+            btnAddOrUpdate.text = requireContext().getString(R.string.add)
             setListenerForAdd()
         }
     }
@@ -117,12 +113,9 @@ class StudentDetailsFragment : Fragment() {
         setData()
         btnAddOrUpdate.setOnClickListener {
             if (validateStudentData()) {
-                val studentDatabase = StudentDatabase.getDatabase(requireContext())
                 val studentData=getData()
-                studentData.studentId=roomViewModel.id.value?: 0
-                GlobalScope.launch {
-                   studentDatabase?.studentDao()?.updateStudent(studentData).toString()
-                }
+                studentData.studentId= roomViewModel.id.value?:0
+                roomViewModel.updateStudentData(requireContext(),studentData)
                 Toast.makeText(
                     requireContext(),
                     getString(R.string.update_data),
@@ -137,10 +130,7 @@ class StudentDetailsFragment : Fragment() {
     private fun setListenerForAdd() {
         btnAddOrUpdate.setOnClickListener {
             if (validateStudentData()) {
-                val studentDatabase = StudentDatabase.getDatabase(requireContext())
-                GlobalScope.launch {
-                    studentDatabase?.studentDao()?.insertStudent(getData())
-                }
+                    roomViewModel.insertData(requireContext(),getData())
                 Toast.makeText(
                     requireContext(),
                     getString(R.string.inset_data),
@@ -153,8 +143,7 @@ class StudentDetailsFragment : Fragment() {
     }
 
     private fun getData(): StudentModel {
-        return StudentModel(
-            0, tetStudentName.text.toString().trim(),
+        return StudentModel(0, tetStudentName.text.toString().trim(),
             tetEmailAddress.text.toString().trim(),
             tetMobileNumber.text.toString().trim().toLong(),
             tetDateOfBirth.text.toString(),
@@ -162,7 +151,7 @@ class StudentDetailsFragment : Fragment() {
             tetAddress.text.toString().trim(),
             spinnerCourseSelection.selectedItem.toString(),
             tetPassingYear.text.toString().trim(),
-            tetHscPercentage.text.toString().trim().toFloat(),
+            tetHscPercentage.text.toString().trim(),
             hobbies
         )
     }
@@ -256,8 +245,7 @@ class StudentDetailsFragment : Fragment() {
 
             }
         }
-        val indexOfCourse: Int =
-            resources.getStringArray(R.array.courses).indexOf(studentDataForUpdate?.course)
+        val indexOfCourse: Int = resources.getStringArray(R.array.courses).indexOf(studentDataForUpdate?.course)
         spinnerCourseSelection.setSelection(indexOfCourse)
         if (studentDataForUpdate?.hobbies?.contains(getString(R.string.sport)) == true) {
             cbSport.isChecked = true

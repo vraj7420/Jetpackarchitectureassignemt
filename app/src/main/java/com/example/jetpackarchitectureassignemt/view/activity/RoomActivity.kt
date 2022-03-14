@@ -17,9 +17,10 @@ class RoomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         bindingRoomActivity= DataBindingUtil.setContentView(this, R.layout.activity_room)
         init()
-        Util().setFragment(fragment_container_view_room.id,this, StudentListFragment())
     }
+
     private fun init(){
+        Util().setFragment(fragment_container_view_room.id,this, StudentListFragment())
         val actionBar=supportActionBar
         actionBar?.title =getString(R.string.room)
     }

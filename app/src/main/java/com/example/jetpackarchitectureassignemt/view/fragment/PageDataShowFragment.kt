@@ -24,7 +24,8 @@ class PageDataShowFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        bindingPageDataShowFragment = DataBindingUtil.inflate(inflater, R.layout.fragment_page_data_show, container, false)
+        bindingPageDataShowFragment =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_page_data_show, container, false)
         return bindingPageDataShowFragment.root
     }
 

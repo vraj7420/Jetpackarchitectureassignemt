@@ -8,9 +8,9 @@ import com.example.jetpackarchitectureassignemt.Util
 import com.example.jetpackarchitectureassignemt.model.StudentModel
 
 
-@Database(entities = [StudentModel::class], version = 1)
+@Database(entities = [StudentModel::class], version = 2)
 abstract class StudentDatabase : RoomDatabase() {
-    abstract fun studentDao(): StudentDAO
+    abstract fun studentDao(): StudentNewDAO
 
     companion object {
         @Volatile

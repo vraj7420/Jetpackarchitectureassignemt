@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.jetpackarchitectureassignemt.R
 
-class NotificationDescriptionActivity : AppCompatActivity() {
+class NavigationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_notification_description)
+        setContentView(R.layout.activity_navigation)
     }
 }

@@ -29,5 +29,9 @@ class MainActivity : AppCompatActivity() {
             val intentWorkManger=Intent(this,WorkMangerActivity::class.java)
             startActivity(intentWorkManger)
         }
+        btnNavigationComponent.setOnClickListener {
+            val intentNavigationActivity=Intent(this,NavigationActivity::class.java)
+            startActivity(intentNavigationActivity)
+        }
     }
 }

@@ -96,7 +96,7 @@ class AlarmListFragment : Fragment() {
     private fun setAdapterAlarmList() {
         val alarmAdapter = RecyclerSetAlarmListAdapter(alarmList){ _, item ->
             workerMangerViewModel.alarmTitle.value=item.alarmTitle
-         Util().setFragment(requireActivity().fragment_container_view_work_manger.id,requireContext(),SetAlarmFragment())
+          Util().setFragment(requireActivity().fragment_container_view_work_manger.id,requireContext(),SetAlarmFragment())
         }
         rvAlarmList.adapter = alarmAdapter
     }

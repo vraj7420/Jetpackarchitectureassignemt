@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
-import com.example.jetpackarchitectureassignemt.BatteryLowWorker
+import com.example.jetpackarchitectureassignemt.worker_manger.BatteryLowWorker
 import com.example.jetpackarchitectureassignemt.R
 import kotlinx.android.synthetic.main.fragment_notify_battery_low.*
 import java.util.concurrent.TimeUnit

@@ -43,7 +43,7 @@
     <string name="error_birth_is_empty">Please Enter Date of Birth</string>
     <string name="error_passing_year">Enter Hsc Passing  Year</string>
     <string name="error_percentage">Enter Hsc Percentage</string>
-    <string name="student_name">Student Name</string>
+    <string name="student_name">Student Name: </string>
     <string name="contact_number">Contact Number:</string>
     <string name="course_name">Course Name:</string>
     <string name="update">Update</string>
@@ -99,6 +99,13 @@
     <string name="device_idle">Device is in Idle State</string>
     <string name="device_not_idle">Device is in Not Idle State</string>
     <string name="enter_time_for_repeating">Enter Time For Repeating in Second</string>
+    <string name="redirect_to_screen_2">Redirect To Screen 2</string>
+    <string name="redirect_to_screen_3">Redirect ToScreen3</string>
+    <string name="btnBack">Back</string>
+    <string name="screen1">Screen1</string>
+    <string name="screen2">Screen2</string>
+    <string name="screen3">Screen3</string>
+    <string name="add_to_backstack">Add To BackStack:</string>
     <string-array name="courses">
         <item>B.Tech(Computer Engineering)</item>
         <item>B.Tech(I.T Engineering)</item>

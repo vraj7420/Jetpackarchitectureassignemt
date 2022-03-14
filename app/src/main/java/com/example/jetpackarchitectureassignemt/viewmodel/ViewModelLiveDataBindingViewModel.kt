@@ -18,7 +18,7 @@ class ViewModelLiveDataBindingViewModel : ViewModel(), LifecycleOwner {
     var apiFailure = MutableLiveData("")
     var bindingPageNumberTack: FragmentPageNumberTackBinding? = null
     var bindingPageDataShow: FragmentPageDataShowBinding? = null
-    var pageDataList = MutableLiveData<ArrayList<PageModel>>()
+    var pageDataList = MutableLiveData<ArrayList<PageModel>?>()
     val pageNumberLiveData: LiveData<String>
         get() = pageNumber
 

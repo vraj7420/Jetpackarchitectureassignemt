@@ -2,9 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
     <data>
-
+  <variable
+      name="roomViewModel"
+      type="com.example.jetpackarchitectureassignemt.viewmodel.RoomViewModel" />
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,5 +31,16 @@
             app:fabSize="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             android:contentDescription="@string/register_student" />
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/no_data"
+            android:visibility="gone"
+            android:id="@+id/tvNoData"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
