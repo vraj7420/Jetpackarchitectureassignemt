@@ -9,14 +9,15 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.jetpackarchitectureassignemt.R
-import com.example.jetpackarchitectureassignemt.Util
 import com.example.jetpackarchitectureassignemt.adapter.RecyclerStudentListAdapter
 import com.example.jetpackarchitectureassignemt.databinding.FragmentStudentListBinding
 import com.example.jetpackarchitectureassignemt.model.StudentModel
 import com.example.jetpackarchitectureassignemt.viewmodel.RoomViewModel
-import kotlinx.android.synthetic.main.activity_room.*
+import com.example.jetpackarchitectureassignemt.viewmodel.RoomViewModelFactory
 import kotlinx.android.synthetic.main.fragment_student_list.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
@@ -29,8 +30,8 @@ class StudentListFragment : Fragment() {
     private lateinit var adapter: RecyclerStudentListAdapter
     private lateinit var roomViewModel: RoomViewModel
     private lateinit var alertDialogDelete: AlertDialog
-    private  var delete=0
-
+    private var delete = 0
+    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,17 +45,18 @@ class StudentListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
         viewModelSetUp()
         dataObserver()
         setListener()
     }
 
     private fun viewModelSetUp() {
-        roomViewModel = ViewModelProvider(requireActivity()).get(RoomViewModel::class.java)
+        roomViewModel = ViewModelProvider(requireActivity(),RoomViewModelFactory(requireContext()))[RoomViewModel::class.java]
     }
 
     private fun dataObserver() {
-        roomViewModel.studentData(requireContext()).observe(viewLifecycleOwner, {
+        roomViewModel.studentData().observe(viewLifecycleOwner, {
             setAdapter(it)
         })
     }
@@ -62,9 +64,9 @@ class StudentListFragment : Fragment() {
 
     private fun setAdapter(studentList: List<StudentModel>) {
         rvStudentList.adapter = null
-        if(studentList.isEmpty()){
-            rvStudentList.visibility=View.GONE
-            tvNoData.visibility=View.VISIBLE
+        if (studentList.isEmpty()) {
+            rvStudentList.visibility = View.GONE
+            tvNoData.visibility = View.VISIBLE
         }
         adapter = RecyclerStudentListAdapter({ _, item ->
             val builder = AlertDialog.Builder(requireContext())
@@ -72,9 +74,9 @@ class StudentListFragment : Fragment() {
             builder.setMessage(requireContext().getString(R.string.delete_message))
             builder.setPositiveButton(requireContext().getString(R.string.yes)) { dialog: DialogInterface?, _: Int ->
                 GlobalScope.launch {
-                delete= roomViewModel.deleteStudentData(requireContext(), item) ?:0
+                    delete = roomViewModel.deleteStudentData(item) ?: 0
                 }
-                if(delete==1){
+                if (delete == 1) {
                     dialog?.dismiss()
                 }
             }
@@ -84,12 +86,8 @@ class StudentListFragment : Fragment() {
         }, studentList) { _, item ->
             roomViewModel.addOrUpdate.value = false
             roomViewModel.studentData.value = item
-            roomViewModel.id.value = item.studentId
-            Util().setFragment(
-                requireActivity().fragment_container_view_room.id,
-                requireContext(),
-                StudentDetailsFragment()
-            )
+            roomViewModel.getDataForUpdate()
+            navController.navigate(R.id.action_studentListFragment_to_studentDetailsFragment)
         }
         rvStudentList.adapter = adapter
         rvStudentList.layoutManager = LinearLayoutManager(requireContext())
@@ -98,10 +96,7 @@ class StudentListFragment : Fragment() {
     private fun setListener() {
         fabRegisterStudent.setOnClickListener {
             roomViewModel.addOrUpdate.value = true
-            Util().setFragment(
-                requireActivity().fragment_container_view_room.id,
-                requireContext(),
-                StudentDetailsFragment())
+            navController.navigate(R.id.action_studentListFragment_to_studentDetailsFragment)
         }
     }
 }

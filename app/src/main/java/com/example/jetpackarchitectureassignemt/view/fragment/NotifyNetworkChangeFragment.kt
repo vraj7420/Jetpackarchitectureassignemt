@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.work.Constraints
+import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.example.jetpackarchitectureassignemt.R
 import com.example.jetpackarchitectureassignemt.worker_manger.NetworkStateChangeWorker
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_notify_network_change.*
 
 
@@ -26,19 +28,20 @@ class NotifyNetworkChangeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val workManager = WorkManager.getInstance(requireContext())
-        val sendingLog = OneTimeWorkRequest.Builder(NetworkStateChangeWorker::class.java).build()
+        init()
 
+    }
+    private fun init(){
+        val constraints: Constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+        val workManager = WorkManager.getInstance(requireContext())
+        val sendingLog = OneTimeWorkRequest.Builder(NetworkStateChangeWorker::class.java).setConstraints(constraints).build()
         btnSetAlarm.setOnClickListener {
             workManager.enqueue(sendingLog)
+            Snackbar.make(requireActivity().findViewById(android.R.id.content),requireContext().getString(R.string.set_alarm), Snackbar.LENGTH_LONG).show()
         }
         btnStopAlarm.setOnClickListener {
             workManager.cancelAllWork()
-                Toast.makeText(
-                    activity,
-                    activity?.getString(R.string.set_alarm),
-                    Toast.LENGTH_SHORT
-                ).show()
+            Snackbar.make(requireActivity().findViewById(android.R.id.content),requireContext().getString(R.string.stop_alarm), Snackbar.LENGTH_LONG).show()
 
         }
     }

@@ -18,14 +18,23 @@ class NavigationScreen3Fragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        bingingNavigationScreen3Fragment=DataBindingUtil.inflate(inflater,R.layout.fragment_navigation_screen3,container,false)
-         return bingingNavigationScreen3Fragment.root
+        bingingNavigationScreen3Fragment = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_navigation_screen3,
+            container,
+            false
+        )
+        return bingingNavigationScreen3Fragment.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val actionBar=(activity as NavigationActivity).supportActionBar
-        actionBar?.title=requireContext().getString(R.string.screen3)
+        init()
+    }
+
+    private fun init() {
+        val actionBar = (activity as NavigationActivity).supportActionBar
+        actionBar?.title = requireContext().getString(R.string.screen3)
         btnBack.setOnClickListener {
             requireActivity().onBackPressed()
         }

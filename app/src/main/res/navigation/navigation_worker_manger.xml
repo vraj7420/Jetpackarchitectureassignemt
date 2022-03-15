@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_worker_manger"
+    app:startDestination="@id/alarmListFragment">
+
+    <fragment
+        android:id="@+id/alarmListFragment"
+        android:name="com.example.jetpackarchitectureassignemt.view.fragment.AlarmListFragment"
+        android:label="AlarmListFragment" >
+        <action
+            android:id="@+id/action_alarmListFragment_to_setAlarmFragment"
+            app:destination="@id/setAlarmFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/setAlarmFragment"
+        android:name="com.example.jetpackarchitectureassignemt.view.fragment.SetAlarmFragment"
+        android:label="SetAlarmFragment" />
+</navigation>

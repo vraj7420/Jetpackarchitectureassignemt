@@ -6,17 +6,10 @@ import androidx.work.WorkerParameters
 import com.example.jetpackarchitectureassignemt.R
 import com.example.jetpackarchitectureassignemt.Util
 
-class NetworkStateChangeWorker(var ctx:Context,parameters: WorkerParameters):Worker(ctx,parameters) {
-
+class AfterSomeTimeAlarm(var ctx: Context, parameters: WorkerParameters): Worker(ctx,parameters)  {
     override fun doWork(): Result {
-        Util().notificationCreate(
-            ctx,
-            R.drawable.ic_wifi,
-            ctx.getString(R.string.network_state),
-            ctx.getString(R.string.network_change_short_description)
-        )
+        Util().notificationCreate(ctx,
+            R.drawable.ic_alarm,ctx.getString(R.string.after_certain_amount_time),ctx.getString(R.string.set_alarm_after_some_time_short_description))
         return Result.success()
     }
-
-
 }

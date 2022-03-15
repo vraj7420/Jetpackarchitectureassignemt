@@ -8,14 +8,14 @@ import com.example.jetpackarchitectureassignemt.Util
 import com.example.jetpackarchitectureassignemt.model.StudentModel
 
 
-@Database(entities = [StudentModel::class], version = 2)
+@Database(entities = [StudentModel::class], version = 3)
 abstract class StudentDatabase : RoomDatabase() {
     abstract fun studentDao(): StudentNewDAO
 
     companion object {
         @Volatile
         private var instance: StudentDatabase? = null
-        fun getDatabase(ctx: Context): StudentDatabase?{
+        fun getDatabase(ctx: Context): StudentDatabase? {
             if (instance == null) {
                 synchronized(this) {
                     instance = Room.databaseBuilder(ctx, StudentDatabase::class.java,Util.dataBase)

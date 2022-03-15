@@ -4,15 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequest
+import androidx.work.Constraints
+import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.example.jetpackarchitectureassignemt.R
 import com.example.jetpackarchitectureassignemt.worker_manger.ChargingModeWorker
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_notify_charge_mode.*
-import java.util.concurrent.TimeUnit
 
 
 class NotifyChargeModeFragment : Fragment() {
@@ -27,20 +26,21 @@ class NotifyChargeModeFragment : Fragment() {
 
    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       val workManager = WorkManager.getInstance(requireContext())
-       val sendingLog = PeriodicWorkRequest.Builder(ChargingModeWorker::class.java,1000, TimeUnit.MILLISECONDS).build()
-       btnSetAlarm.setOnClickListener {
-           workManager.enqueueUniquePeriodicWork("Battery Charging Mode",
-               ExistingPeriodicWorkPolicy.REPLACE,sendingLog)
-           Toast.makeText(activity, activity?.getString(R.string.set_alarm), Toast.LENGTH_SHORT)
-                .show()
+       init()
+   }
 
+    private fun init(){
+        val constraints: Constraints = Constraints.Builder().setRequiresCharging(true).build()
+        val workManager = WorkManager.getInstance(requireContext())
+        val sendingLog = OneTimeWorkRequest.Builder(ChargingModeWorker::class.java).setConstraints(constraints).build()
+        btnSetAlarm.setOnClickListener {
+            workManager.enqueue(sendingLog)
+            Snackbar.make(requireActivity().findViewById(android.R.id.content),requireContext().getString(R.string.set_alarm), Snackbar.LENGTH_LONG).show()
         }
         btnStopAlarm.setOnClickListener {
-            WorkManager.getInstance(requireContext()).cancelAllWorkByTag("Battery Charging Mode")
-            Toast.makeText(activity, activity?.getString(R.string.stop_alarm), Toast.LENGTH_SHORT)
-                .show()
-        }
+            workManager.cancelAllWork()
+            Snackbar.make(requireActivity().findViewById(android.R.id.content),requireContext().getString(R.string.stop_alarm), Snackbar.LENGTH_LONG).show()
 
+        }
     }
 }

@@ -1,22 +1,16 @@
 package com.example.jetpackarchitectureassignemt.worker_manger
 
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.example.jetpackarchitectureassignemt.background.ChargingModeReceiver
+import com.example.jetpackarchitectureassignemt.R
+import com.example.jetpackarchitectureassignemt.Util
 
 class ChargingModeWorker(var ctx:Context,params: WorkerParameters):Worker(ctx,params) {
-    private lateinit var chargingModeReceiver: ChargingModeReceiver
     override fun doWork(): Result {
-        chargingModeReceiver = ChargingModeReceiver()
-        ctx.registerReceiver(chargingModeReceiver, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+       Util().notificationCreate(ctx, R.drawable.ic_battery_charging, ctx.getString(R.string.battery_charging), ctx.getString(R.string.battery_low_short_description))
         return Result.success()
     }
 
-    override fun onStopped() {
-        super.onStopped()
-        ctx.unregisterReceiver(chargingModeReceiver)
-    }
+
 }

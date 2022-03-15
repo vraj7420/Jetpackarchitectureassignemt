@@ -13,8 +13,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.jetpackarchitectureassignemt.R
 import com.example.jetpackarchitectureassignemt.Util
 import com.example.jetpackarchitectureassignemt.databinding.FragmentStudentDetailsBinding
-import com.example.jetpackarchitectureassignemt.model.StudentModel
 import com.example.jetpackarchitectureassignemt.viewmodel.RoomViewModel
+import com.example.jetpackarchitectureassignemt.viewmodel.RoomViewModelFactory
 import com.whiteelephant.monthpicker.MonthPickerDialog
 import kotlinx.android.synthetic.main.fragment_student_details.*
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -38,9 +38,7 @@ class StudentDetailsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        bindingStudentDetailsFragment =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_student_details, container,
-                false)
+        bindingStudentDetailsFragment = DataBindingUtil.inflate(inflater, R.layout.fragment_student_details, container, false)
         return bindingStudentDetailsFragment.root
     }
 
@@ -48,11 +46,19 @@ class StudentDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModelSetUp()
         init()
+        observer()
+    }
 
+    private fun observer(){
+        roomViewModel.selectedCoursePosition.observe(viewLifecycleOwner,{
+            roomViewModel.course.value= spinnerCourseSelection.selectedItem.toString()
+        })
     }
 
     private fun viewModelSetUp() {
-        roomViewModel = ViewModelProvider(requireActivity()).get(RoomViewModel::class.java)
+        roomViewModel = ViewModelProvider(requireActivity(), RoomViewModelFactory(requireContext()))[RoomViewModel::class.java]
+        bindingStudentDetailsFragment.student=roomViewModel
+        bindingStudentDetailsFragment.lifecycleOwner=this
     }
 
     private fun init() {
@@ -64,7 +70,6 @@ class StudentDetailsFragment : Fragment() {
             }
         }
         val courseSelectionAdapter = ArrayAdapter(
-
             requireContext(),
             android.R.layout.simple_spinner_item,
             resources.getStringArray(R.array.courses)
@@ -113,16 +118,13 @@ class StudentDetailsFragment : Fragment() {
         setData()
         btnAddOrUpdate.setOnClickListener {
             if (validateStudentData()) {
-                val studentData=getData()
-                studentData.studentId= roomViewModel.id.value?:0
-                roomViewModel.updateStudentData(requireContext(),studentData)
+                roomViewModel.updateStudentData()
                 Toast.makeText(
                     requireContext(),
                     getString(R.string.update_data),
                     Toast.LENGTH_SHORT
                 ).show()
                 requireActivity().onBackPressed()
-
             }
         }
     }
@@ -130,7 +132,7 @@ class StudentDetailsFragment : Fragment() {
     private fun setListenerForAdd() {
         btnAddOrUpdate.setOnClickListener {
             if (validateStudentData()) {
-                    roomViewModel.insertData(requireContext(),getData())
+                    roomViewModel.insertData()
                 Toast.makeText(
                     requireContext(),
                     getString(R.string.inset_data),
@@ -141,21 +143,6 @@ class StudentDetailsFragment : Fragment() {
             }
         }
     }
-
-    private fun getData(): StudentModel {
-        return StudentModel(0, tetStudentName.text.toString().trim(),
-            tetEmailAddress.text.toString().trim(),
-            tetMobileNumber.text.toString().trim().toLong(),
-            tetDateOfBirth.text.toString(),
-            userGender,
-            tetAddress.text.toString().trim(),
-            spinnerCourseSelection.selectedItem.toString(),
-            tetPassingYear.text.toString().trim(),
-            tetHscPercentage.text.toString().trim(),
-            hobbies
-        )
-    }
-
     private fun validateStudentData(): Boolean {
         when {
             (tetStudentName.text.toString().trim().isEmpty()) -> {
@@ -208,54 +195,15 @@ class StudentDetailsFragment : Fragment() {
                 tetHscPercentage.requestFocus()
                 return false
             }
-            else -> {
-                if (cbSport.isChecked) {
-                    hobbies += cbSport.text.toString()
-                }
-                if (cbTraveling.isChecked) {
-                    hobbies += cbTraveling.text.toString()
-                }
-                if (cbCulturalActivities.isChecked) {
-                    hobbies += cbCulturalActivities.text.toString()
-                }
-            }
+
         }
         return true
     }
 
     private fun setData() {
         val studentDataForUpdate = roomViewModel.studentData.value
-        tetStudentName.setText(studentDataForUpdate?.studentName)
-        tetEmailAddress.setText(studentDataForUpdate?.email)
-        tetMobileNumber.setText(studentDataForUpdate?.contactNumber.toString())
-        tetDateOfBirth.setText(studentDataForUpdate?.dob)
-        tetAddress.setText(studentDataForUpdate?.address)
-        tetHscPercentage.setText(studentDataForUpdate?.HSCPercentage.toString())
-        tetPassingYear.setText(studentDataForUpdate?.HSCPassingYear)
-        when (studentDataForUpdate?.gender) {
-            (getString(R.string.male)) -> {
-                rbMale.isChecked = true
-            }
-            (getString(R.string.female)) -> {
-                rbFemale.isChecked = true
-
-            }
-            (getString(R.string.other)) -> {
-                rbOther.isChecked = true
-
-            }
-        }
         val indexOfCourse: Int = resources.getStringArray(R.array.courses).indexOf(studentDataForUpdate?.course)
         spinnerCourseSelection.setSelection(indexOfCourse)
-        if (studentDataForUpdate?.hobbies?.contains(getString(R.string.sport)) == true) {
-            cbSport.isChecked = true
-        }
-        if (studentDataForUpdate?.hobbies?.contains(getString(R.string.traveling)) == true) {
-            cbTraveling?.isChecked = true
-        }
-        if (studentDataForUpdate?.hobbies?.contains(getString(R.string.cultural_activities)) == true) {
-            cbCulturalActivities.isChecked = true
-        }
         val updateBirthDate= sdf.parse(studentDataForUpdate?.dob ?:" ")
         calendar.time = updateBirthDate ?: Date()
         birthDate = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
@@ -273,7 +221,6 @@ class StudentDetailsFragment : Fragment() {
                 calendar.get(Calendar.DAY_OF_MONTH)
             ).show()
         }
-
         tetPassingYear.setOnClickListener {
             val yearFormat = SimpleDateFormat(Util.yearFormat, Locale.US)
             val yearUpdate = yearFormat.parse(studentDataForUpdate?.HSCPassingYear ?:"")
@@ -288,6 +235,5 @@ class StudentDetailsFragment : Fragment() {
                 .setTitle(Util.selectYear)
                 .build().show()
         }
-
     }
 }

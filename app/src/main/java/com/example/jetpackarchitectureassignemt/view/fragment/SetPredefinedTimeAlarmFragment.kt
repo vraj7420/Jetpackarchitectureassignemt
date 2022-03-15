@@ -1,18 +1,18 @@
 package com.example.jetpackarchitectureassignemt.view.fragment
 
 import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import com.example.jetpackarchitectureassignemt.R
-import kotlinx.android.synthetic.main.fragment_notify_device_idle.view.*
+import com.example.jetpackarchitectureassignemt.worker_manger.PredefinedWorker
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_set_predefined_time_alarm.*
+import java.util.concurrent.TimeUnit
 
 class SetPredefinedTimeAlarmFragment : Fragment() {
 
@@ -28,45 +28,23 @@ class SetPredefinedTimeAlarmFragment : Fragment() {
     }
 
 
-    @SuppressLint("UnspecifiedImmutableFlag")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val alarmManager: AlarmManager =
-            activity?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        init()
+    }
+    private fun  init(){
+        val workManager = WorkManager.getInstance(requireContext())
+        val sendingLog = PeriodicWorkRequest.Builder(PredefinedWorker::class.java,30,TimeUnit.MINUTES).build()
 
-        view.btnSetAlarm.setOnClickListener {
-            val intentAlarm = Intent()
-            intentAlarm.action = "com.alarm.notification"
-            intentAlarm.addCategory("android.intent.category.DEFAULT")
-            val pendingIntent = PendingIntent.getBroadcast(
-                activity,
-                0,
-                intentAlarm,
-                PendingIntent.FLAG_UPDATE_CURRENT
-            )
-            alarmManager.set(
-                AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis() + (1000 * 1 * 30),
-                pendingIntent
-            )
-            Toast.makeText(activity, activity?.getString(R.string.set_alarm), Toast.LENGTH_SHORT)
-                .show()
+        btnSetAlarm.setOnClickListener {
+            workManager.enqueue(sendingLog)
+            Snackbar.make(requireActivity().findViewById(android.R.id.content),requireContext().getString(R.string.set_alarm), Snackbar.LENGTH_LONG).show()
         }
 
 
-        view.btnStopAlarm.setOnClickListener {
-            val intentAlarm = Intent()
-            intentAlarm.action = "com.alarm.notification"
-            intentAlarm.addCategory("android.intent.category.DEFAULT")
-            val pendingIntent = PendingIntent.getBroadcast(
-                activity,
-                0,
-                intentAlarm,
-                PendingIntent.FLAG_UPDATE_CURRENT
-            )
-            alarmManager.cancel(pendingIntent)
-            Toast.makeText(activity, activity?.getString(R.string.stop_alarm), Toast.LENGTH_SHORT)
-                .show()
+        btnStopAlarm.setOnClickListener {
+            workManager.cancelAllWork()
+            Snackbar.make(requireActivity().findViewById(android.R.id.content),requireContext().getString(R.string.stop_alarm), Snackbar.LENGTH_LONG).show()
         }
     }
 }

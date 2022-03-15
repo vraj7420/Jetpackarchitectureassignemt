@@ -6,10 +6,10 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "StudentNew")
 class StudentModel(
     @PrimaryKey(autoGenerate = true)
-    var studentId: Int=0,
+    var studentId: Long=0,
     var studentName: String="",
     var email:String="",
-    var contactNumber:Long =0,
+    var contactNumber:String ="",
     var dob:String="",
     var gender:String="",
     var address:String="",

@@ -44,7 +44,7 @@ class SetAlarmFragment : Fragment() {
         tvAlarmTitle.text = alarmTitle
         when (alarmTitle) {
             getString(R.string.charge_mode_alarm) ->
-                Util().setFragment(fragmentAlarm.id, requireContext(), NotifyChargeModeFragment())
+                Util().setNestedFragment(fragmentAlarm.id, requireContext(), NotifyChargeModeFragment())
             getString(R.string.battery_low_alarm) -> Util().setNestedFragment(
                 fragmentAlarm.id,
                 requireContext(),

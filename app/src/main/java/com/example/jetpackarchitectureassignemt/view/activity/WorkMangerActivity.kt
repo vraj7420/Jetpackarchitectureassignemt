@@ -17,8 +17,12 @@ class WorkMangerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindingWorkMangerActivity = DataBindingUtil.setContentView(this, R.layout.activity_worker_manger)
-        init()
         Util().setFragment(fragment_container_view_work_manger.id,this,AlarmListFragment())
+    }
+
+    override fun onStart() {
+        super.onStart()
+        init()
     }
     private fun init(){
         val actionBar=supportActionBar

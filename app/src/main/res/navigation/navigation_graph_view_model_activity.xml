@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_graph_view_model_activity"
+    app:startDestination="@id/pageNumberTackFragment">
+
+    <fragment
+        android:id="@+id/pageNumberTackFragment"
+        android:name="com.example.jetpackarchitectureassignemt.view.fragment.PageNumberTackFragment"
+        android:label="PageNumberTackFragment" >
+        <action
+            android:id="@+id/action_pageNumberTackFragment_to_pageDataShowFragment"
+            app:destination="@id/pageDataShowFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pageDataShowFragment"
+        android:name="com.example.jetpackarchitectureassignemt.view.fragment.PageDataShowFragment"
+        android:label="PageDataShowFragment" />
+</navigation>

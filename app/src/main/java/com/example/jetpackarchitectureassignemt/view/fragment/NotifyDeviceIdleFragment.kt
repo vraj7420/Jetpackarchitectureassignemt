@@ -1,15 +1,18 @@
 package com.example.jetpackarchitectureassignemt.view.fragment
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.work.Constraints
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.example.jetpackarchitectureassignemt.R
 import com.example.jetpackarchitectureassignemt.worker_manger.DeviceIdleStateWorker
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_notify_device_idle.*
 
 class NotifyDeviceIdleFragment : Fragment() {
@@ -22,22 +25,26 @@ class NotifyDeviceIdleFragment : Fragment() {
 
     }
 
+ @RequiresApi(Build.VERSION_CODES.M)
  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-     val workManager = WorkManager.getInstance(requireContext())
-     val sendingLog =OneTimeWorkRequest.Builder(DeviceIdleStateWorker::class.java).build()
-     btnSetAlarm.setOnClickListener {
-         workManager.enqueue(sendingLog)
-            Toast.makeText(activity, activity?.getString(R.string.set_alarm), Toast.LENGTH_SHORT)
-                .show()
+          init()
+ }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun init(){
+        val constraints: Constraints = Constraints.Builder().setRequiresDeviceIdle(true).build()
+        val workManager = WorkManager.getInstance(requireContext())
+        val sendingLog = OneTimeWorkRequest.Builder(DeviceIdleStateWorker::class.java).setConstraints(constraints).build()
+        btnSetAlarm.setOnClickListener {
+            workManager.enqueue(sendingLog)
+            Snackbar.make(requireActivity().findViewById(android.R.id.content),requireContext().getString(R.string.set_alarm), Snackbar.LENGTH_LONG).show()
         }
 
         btnStopAlarm.setOnClickListener {
             workManager.cancelAllWork()
-            Toast.makeText(activity, activity?.getString(R.string.stop_alarm), Toast.LENGTH_SHORT)
-                .show()
+            Snackbar.make(requireActivity().findViewById(android.R.id.content),requireContext().getString(R.string.stop_alarm), Snackbar.LENGTH_LONG).show()
         }
-
     }
 
 }

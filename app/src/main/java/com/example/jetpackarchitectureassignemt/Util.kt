@@ -1,18 +1,31 @@
 package com.example.jetpackarchitectureassignemt
 
+import android.annotation.SuppressLint
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.example.jetpackarchitectureassignemt.view.activity.NotificationDetailsActivity
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class Util {
-   companion object{
+    private lateinit var notificationManager: NotificationManager
+    private lateinit var notificationChannel: NotificationChannel
+    private lateinit var builder: Notification.Builder
+    private lateinit var pendingIntent: PendingIntent
+
+    companion object{
        const val tagApi="story"
        const val apiSubUrl="search_by_date"
        const val apiQueryTagArg="tags"
@@ -23,7 +36,49 @@ class Util {
        const val yearFormat="yyyy"
        const val dateOldFormat="yyyy-MM-dd'T'hh:mm:ss"
    }
-     fun checkForInternet(context: Context): Boolean {
+
+ @SuppressLint("UnspecifiedImmutableFlag")
+ fun notificationCreate(
+        ctx: Context,
+        smallIcon: Int,
+        title: String,
+        shortDescription: String
+    ) {
+     val notificationIntent = Intent(ctx, NotificationDetailsActivity::class.java)
+     notificationManager = ctx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+     pendingIntent = PendingIntent.getActivity(ctx, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationChannel =
+                NotificationChannel(
+                    ConstantString.channelId,
+                    ConstantString.description,
+                    NotificationManager.IMPORTANCE_HIGH
+                )
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.GREEN
+            notificationChannel.enableVibration(false)
+            notificationManager.createNotificationChannel(notificationChannel)
+
+            builder = Notification.Builder(ctx, ConstantString.channelId)
+                .setSmallIcon(smallIcon)
+                .setContentIntent(pendingIntent)
+                .setContentTitle(title)
+                .setContentText(shortDescription)
+        } else {
+
+            builder = Notification.Builder(ctx)
+                .setSmallIcon(smallIcon)
+                .setContentIntent(pendingIntent)
+                .setContentTitle(title)
+                .setContentText(shortDescription)
+        }
+        notificationManager.notify(1234, builder.build())
+
+
+    }
+
+    fun checkForInternet(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val network = connectivityManager.activeNetwork ?: return false

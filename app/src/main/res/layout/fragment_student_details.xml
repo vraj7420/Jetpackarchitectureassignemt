@@ -2,13 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
     <data>
-     <variable
-         name="studentData"
-         type="com.example.jetpackarchitectureassignemt.viewmodel.RoomViewModel" />
+        <variable
+            name="student"
+            type="com.example.jetpackarchitectureassignemt.viewmodel.RoomViewModel" />
+        <import type="android.text.TextUtils"/>
     </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:id="@+id/rootStudentDetails"
@@ -73,6 +72,7 @@
                             android:layout_marginTop="10dp"
                             app:startIconDrawable="@drawable/ic_student"
                             app:startIconTint="@color/black"
+                            app:errorEnabled="@{!TextUtils.isEmpty(student.studentNameError) ? true:false}"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvTitlePersonal">
@@ -81,8 +81,8 @@
                                 android:id="@+id/tetStudentName"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:text="@={student.studentName}"
                                 android:hint="@string/enter_student_name"
-                                android:text="@{studentData.studentData.studentName}"
                                 android:inputType="text" />
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -95,12 +95,14 @@
                             app:startIconTint="@color/black"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
+                            app:errorEnabled="@{! TextUtils.isEmpty(student.emailError) ? true:false}"
                             app:layout_constraintTop_toBottomOf="@id/titStudentName">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/tetEmailAddress"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:text="@={student.email}"
                                 android:hint="@string/enter_student_email_address"
                                 android:inputType="textEmailAddress" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -131,6 +133,8 @@
                                 android:layout_marginStart="10dp"
                                 android:text="@string/male"
                                 android:textSize="12sp"
+                                android:checked="@{student.gender.equals(@string/male)?true:false}"
+                                android:onClick="@{()->student.setGender(@string/male)}"
                                 android:textStyle="bold"
                                 tools:ignore="UsingOnClickInXml" />
 
@@ -140,6 +144,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
                                 android:text="@string/female"
+                                android:checked="@{student.gender.equals(@string/female)?true:false}"
+                                android:onClick="@{()->student.setGender(@string/female)}"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
 
@@ -149,6 +155,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
                                 android:text="@string/other"
+                                android:checked="@{student.gender.equals(@string/other)?true:false}"
+                                android:onClick="@{()->student.setGender(@string/other)}"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
                         </RadioGroup>
@@ -161,6 +169,7 @@
                             app:startIconTint="@color/black"
                             app:startIconDrawable="@drawable/ic_contact_number"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:errorEnabled="@{!TextUtils.isEmpty(student.contactNumberError) ? true:false}"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/titEmailAddress">
 
@@ -169,6 +178,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:maxLength="10"
+                                android:text="@={student.contactNumber}"
                                 android:hint="@string/enter_contact_number"
                                 android:inputType="number" />
 
@@ -200,6 +210,8 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 android:text="@string/sport"
                                 android:id="@+id/cbSport"
+                                android:checked="@{student.hobbies.contains(@string/sport)?true:false}"
+                                 android:onClick="@{()->student.setHobbies(student.hobbies+ @string/sport)}"
                                 android:textColor="@color/black"
                                 app:layout_constraintTop_toBottomOf="@id/tvTitleHobbies" />
 
@@ -210,6 +222,8 @@
                                 android:textColor="@color/black"
                                 android:id="@+id/cbTraveling"
                                 android:text="@string/traveling"
+                                android:checked="@{student.hobbies.contains(@string/traveling)?true:false}"
+                                android:onClick="@{()->student.setHobbies(student.hobbies+@string/traveling)}"
                                 app:layout_constraintTop_toBottomOf="@id/tvTitleHobbies" />
 
                             <com.google.android.material.checkbox.MaterialCheckBox
@@ -219,6 +233,8 @@
                                 android:textColor="@color/black"
                                 android:id="@+id/cbCulturalActivities"
                                 android:text="@string/cultural_activities"
+                                android:checked="@{student.hobbies.contains(@string/cultural_activities)?true:false}"
+                                android:onClick="@{()->student.setHobbies(student.hobbies+@string/cultural_activities)}"
                                 app:layout_constraintTop_toBottomOf="@id/tvTitleHobbies" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -231,6 +247,7 @@
                             app:startIconDrawable="@drawable/ic_date"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
+                            app:errorEnabled="@{!TextUtils.isEmpty(student.dobError) ? true:false}"
                             app:layout_constraintTop_toBottomOf="@id/titMobileNumber">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -238,6 +255,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:focusable="false"
+                                android:text="@={student.dob}"
                                 android:hint="@string/enter_birth_date"
                                 android:inputType="date" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -252,6 +270,7 @@
                             app:startIconDrawable="@drawable/ic_address"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:errorEnabled="@{!TextUtils.isEmpty(student.addressError)? true:false}"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/cbList">
 
@@ -259,6 +278,7 @@
                                 android:id="@+id/tetAddress"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:text="@={student.address}"
                                 android:hint="@string/enter_the_your_address"
                                 android:inputType="textMultiLine" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -310,6 +330,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
+                            android:selectedItemPosition="@={student.selectedCoursePosition}"
                             app:layout_constraintEnd_toEndOf="@id/tvEducationInfo"
                             app:layout_constraintStart_toEndOf="@id/tvTitleCourse"
                             app:layout_constraintTop_toTopOf="@id/tvTitleCourse" />
@@ -348,6 +369,7 @@
                             android:id="@+id/tilPassingYear"
                             style="@style/CustomTextInputLayout"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:errorEnabled="@{!TextUtils.isEmpty(student.hscPercentageError) ? true:false}"
                             app:layout_constraintStart_toEndOf="@id/tvTitlePassingYear"
                             app:layout_constraintTop_toTopOf="@id/tvTitlePassingYear"
                             app:layout_constraintBottom_toBottomOf="@id/tvTitlePassingYear">
@@ -357,6 +379,7 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="date"
                                 android:focusable="false"
+                                android:text="@={student.HSCPassingYear}"
                                 android:id="@+id/tetPassingYear"
                                 android:hint="@string/passing_year" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -384,6 +407,7 @@
                             android:layout_marginEnd="20dp"
                             style="@style/CustomTextInputLayout"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:errorEnabled="@{!TextUtils.isEmpty(student.hscPercentageError)? true:false}"
                             app:layout_constraintStart_toEndOf="@id/tvTitlePercentage"
                             app:layout_constraintTop_toTopOf="@id/tvTitlePercentage"
                             app:layout_constraintBottom_toBottomOf="@id/tvTitlePercentage">
@@ -392,6 +416,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="number"
+                                android:text="@={student.HSCPercentage}"
                                 android:id="@+id/tetHscPercentage"
                                 android:hint="@string/percentage" />
                         </com.google.android.material.textfield.TextInputLayout>
