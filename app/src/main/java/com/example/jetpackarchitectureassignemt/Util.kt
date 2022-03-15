@@ -35,6 +35,7 @@ class Util {
        const val selectYear="Select Year"
        const val yearFormat="yyyy"
        const val dateOldFormat="yyyy-MM-dd'T'hh:mm:ss"
+        const val notificationId=1234
    }
 
  @SuppressLint("UnspecifiedImmutableFlag")
@@ -73,7 +74,7 @@ class Util {
                 .setContentTitle(title)
                 .setContentText(shortDescription)
         }
-        notificationManager.notify(1234, builder.build())
+        notificationManager.notify(notificationId, builder.build())
 
 
     }
